@@ -9,17 +9,19 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { FormGeneratorComponent } from './form-generator/form-generator.component';
+import { FormFieldGeneratorComponent } from './form-field-generator/form-field-generator.component';
 registerLocaleData(en);
 @NgModule({
-  imports:      [ 
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     NgZorroAntdModule.forRoot()
   ],
-  declarations: [ AppComponent],
-  bootstrap:    [ AppComponent ],
-  providers   : [ { provide: NZ_I18N, useValue: en_US } ]
+  declarations: [AppComponent, FormGeneratorComponent, FormFieldGeneratorComponent],
+  bootstrap: [AppComponent],
+  providers: [{ provide: NZ_I18N, useValue: en_US }]
 })
 export class AppModule { }
 
