@@ -1,3 +1,5 @@
-<p>
-  form-generator works!
-</p>
+ {{group.value | json}}
+<br>
+<form nz-form [nzLayout]="horizontal" [formGroup]="group">
+  <app-form-field-generator *ngFor="let field of fields" [field]="field" [abstractControl]="group.get(field.key)"></app-form-field-generator>
+</form>

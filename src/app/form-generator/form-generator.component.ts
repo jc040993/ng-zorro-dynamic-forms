@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-generator',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormGeneratorComponent implements OnInit {
 
+  @Input() fields: any[];
+  @Input() group: FormGroup;
   constructor() { }
 
   ngOnInit() {

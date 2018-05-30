@@ -1,3 +1,70 @@
-<p>
-  form-field-generator works!
-</p>
+<nz-form-item *ngIf="field.type !== 'array'">
+  <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="field.key">{{field.label}}</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24">
+    <ng-template [ngTemplateOutlet]="getTemplateOutlet(field.type)" [ngTemplateOutletContext]="getContext(field)"></ng-template>
+  </nz-form-control>
+</nz-form-item>
+
+<div *ngIf="field.type == 'array'">
+  <nz-form-item *ngFor="let arr of field.array; let i = index">
+    <nz-form-label [nzSm]="6" [nzXs]="24" *ngIf="i==0">{{field.label}}</nz-form-label>
+    <nz-form-control [nzSm]="{span: 14, offset: i==0?0:6}" [nzXs]="{span: 24, offset: 0}">
+      <div *ngFor="let f of arr">
+        <ng-template [ngTemplateOutlet]="getTemplateOutlet(f.type)" [ngTemplateOutletContext]="getContext(f, i)"></ng-template>
+      </div>
+      <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeField(i, $event)"></i>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{span:24, offset:0}" [nzSm]="{span:24, offset:6}">
+      <button nz-button nzType="dashed" (click)="addField($event)"><i class="anticon anticon-plus"></i> Add field</button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+<!--  -->
+<ng-template #input let-field="field" let-control="control">
+  <input nz-input [formControl]="control" [placeholder]="field.placeholder" [id]="field.key">
+</ng-template>
+<ng-template #textarea let-field="field" let-control="control">
+  <textarea nz-input [formControl]="control" [placeholder]="field.placeholder" [id]="field.key" [nzAutosize]="field.size"></textarea>
+</ng-template>
+<ng-template #inputWithAutoComplete let-field="field" let-control="control">
+  <input nz-input [formControl]="control" [placeholder]="field.placeholder" [id]="field.key" [nzAutocomplete]="autoCompleteTag">
+  <nz-autocomplete #autoCompleteTag>
+    <nz-auto-option [nzValue]="opt" *ngFor="let opt of field.options">{{opt}}</nz-auto-option>
+  </nz-autocomplete>
+</ng-template>
+<ng-template #textareaWithAutoComplete let-field="field" let-control="control">
+  <textarea nz-input [formControl]="control" [placeholder]="field.placeholder" [id]="field.key" [nzAutosize]="field.size" [nzAutocomplete]="autoCompleteTag"></textarea>
+  <nz-autocomplete #autoCompleteTag>
+    <nz-auto-option [nzValue]="opt" *ngFor="let opt of field.options">{{opt}}</nz-auto-option>
+  </nz-autocomplete>
+</ng-template>
+<ng-template #number let-field="field" let-control="control">
+  <input nz-input [formControl]="control" [placeholder]="field.placeholder" [id]="field.key" type="number" [attr.min]="field.min" [attr.max]="field.max" [attr.step]="field.step">
+</ng-template>
+<ng-template #dropdown let-field="field" let-control="control">
+  <nz-select [formControl]="control" [id]="field.key" [nzShowSearch]="field.showSearch" [nzAllowClear]="field.allowClear" [nzMode]="field.mode" [nzPlaceHolder]="field.placeholder">
+    <nz-option [nzValue]="opt.value" [nzLabel]="opt.label" [nzCustomContent]="opt.content" [nzDisabled]="opt.disabled" *ngFor="let opt of field.options">{{opt.content}}</nz-option>
+  </nz-select>
+</ng-template>
+<ng-template #checkbox let-field="field" let-control="control">
+  <nz-checkbox-wrapper [formGroup]="control">
+    <div nz-row>
+      <div nz-col nzSpan="8" *ngFor="let opt of field.options"><label formControlName="{{opt.key}}" nz-checkbox nzValue="opt.value">{{opt.label}}</label></div>
+    </div>
+  </nz-checkbox-wrapper>
+</ng-template>
+<ng-template #radio let-field="field" let-control="control">
+  <nz-radio-group [formControl]="control">
+    <label nz-radio [nzValue]="opt.value" *ngFor="let opt of field.options">{{opt.label}}</label>
+  </nz-radio-group>
+</ng-template>
+<ng-template #date let-field="field" let-control="control">
+  <nz-date-picker [formControl]="control" [nzFormat]="field.format"></nz-date-picker>
+</ng-template>
+<ng-template #object let-field="field" let-control="control">
+  <div *ngFor="let f of field.sub;let i = index">
+    <app-form-field-generator [field]="f" [abstractControl]="control.get(f.key)"></app-form-field-generator>
+  </div>
+</ng-template>
