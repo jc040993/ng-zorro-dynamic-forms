@@ -1,17 +1,52 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 
 @Injectable()
 export class FormConverterService {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   toFormGroup(formModel) {
+    let temp1 = this.fb.group(formModel.reduce((acc, cur) => {
+      switch (cur.type) {
+        case "checkbox":
+          acc[cur.key] = this.toFormGroup(cur.options);
+          break;
+        case "array":
+        
+          break;
+        case "object":
+        
+          break;
+        case "dynamic":
+        
+          break;
+      
+        default:
+          acc[cur.key] = cur.defaultValue;
+          break;
+      }
+
+      return acc;
+    }, {}));
+
+    console.log(temp1);
+    
+
+
+
     let formGroup = {};
     formModel.forEach(field => {
       formGroup[field.key] = this.getFormField(field);
     });
-    return new FormGroup(formGroup);
+
+    let temp2 = new FormGroup(formGroup);
+    console.log(temp2);
+
+    if(temp1 === temp2)
+      console.log("!!!!!!!");
+
+    return temp2;
   }
 
   getFormField(field: any) {

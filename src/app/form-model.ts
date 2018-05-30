@@ -64,6 +64,68 @@ export const FormModel = {
         }]
     },
     {
+        order: 7,
+        key: "dyn",
+        label: "Dynamic",
+        type: "dynamic",
+        defaultValue: null,
+        allowClear: false,
+        showSearch: false,
+        mode: "default",
+        options: [
+            {
+                label: "Option 1",
+                value: "opt1"
+            },
+            {
+                label: "Option 2",
+                value: "opt2"
+            },
+            {
+                label: "Option 3",
+                value: "opt3"
+            },
+            {
+                label: "Option 4",
+                value: "opt4"
+            }
+        ],
+        sub: {
+            opt1: {
+                order: 1,
+                key: "opt1-1",
+                label: "Option1-1",
+                type: "input",
+                defaultValue: null,
+                placeholder: ""
+            },
+            opt2: {
+                order: 2,
+                key: "opt2-1",
+                label: "Option2-1",
+                type: "input",
+                defaultValue: null,
+                placeholder: ""
+            },
+            opt3: {
+                order: 1,
+                key: "opt3-1",
+                label: "Option3-1",
+                type: "input",
+                defaultValue: null,
+                placeholder: ""
+            },
+            opt4: {
+                order: 1,
+                key: "opt4-1",
+                label: "Option4-1",
+                type: "input",
+                defaultValue: null,
+                placeholder: ""
+            }
+        }
+    },
+    {
         order: 8,
         key: "address",
         label: "Address",
@@ -71,7 +133,7 @@ export const FormModel = {
         sub: [{
             order: 1,
             key: "street",
-            label: "street",
+            label: "Street",
             type: "input",
             defaultValue: null,
             placeholder: ""
